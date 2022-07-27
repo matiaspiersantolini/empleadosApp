@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: Empleados API
+  version: "1.0"
+paths:
+  /empleados/datos-laborales/{legajo}:
+    get:
+      summary: 'Obtiene informacion de un empleado a traves de los datos laborales'
+      operationId: getDatosLaboralesByLegajo
+      parameters:
+        - in: path
+          name: legajo
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Succesful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatosLaboralesDTO'
+        '404':
+          description: Not found request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+components:
+  schemas:
+    DatosLaboralesDTO:
+      type: object
+      description: "Respuesta con los datos laborales del empleado"
+      properties:
+        sector:
+          type: string
+        puesto:
+          type: string
+        salario:
+          type: string
+        antiguedad:
+          type: string
+
+    ErrorResponse:
+      type: object
+      description: "Respuesta con los errores detallados"
+      properties:
+        mensaje:
+          type: string
+        detalle:
+          type: string
