@@ -5,7 +5,7 @@ info:
 paths:
   /empleados/datos-laborales/{legajo}:
     get:
-      summary: 'Obtiene informacion de un empleado a traves de los datos laborales'
+      summary: 'Obtiene informacion de los datos laborales de un empleado a traves de su legajo'
       operationId: getDatosLaboralesByLegajo
       parameters:
         - in: path
@@ -20,18 +20,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DatosLaboralesDTO'
+              example:
+                sector: "Marketing"
+                puesto: "Community Manager"
+                salario: "100.00"
+                antiguedad: "5 años"
         '404':
-          description: Not found request
+          description: Not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '400':
+              example:
+                mensaje: "No encontrado"
+                detalle: "No se encontraron empleados con el valor ingresado"
+        '500':
           description: Internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                mensaje: "Error interno de servicio"
+                detalle: "Error interno de servicio"
 
 
 components:
