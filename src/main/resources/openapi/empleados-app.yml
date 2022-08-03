@@ -5,7 +5,7 @@ info:
 paths:
   /empleados/datos-laborales/{legajo}:
     get:
-      summary: 'Obtiene informacion de los datos laborales de un empleado a traves de su legajo'
+      summary: "Obtiene informacion de los datos laborales de un empleado a traves de su legajo"
       operationId: getDatosLaboralesByLegajo
       parameters:
         - in: path
@@ -19,7 +19,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DatosLaboralesDTO'
+                $ref: "#/components/schemas/DatosLaboralesDTO"
               example:
                 sector: "Marketing"
                 puesto: "Community Manager"
@@ -30,10 +30,60 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
               example:
                 mensaje: "No encontrado"
                 detalle: "No se encontraron empleados con el valor ingresado"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                mensaje: "Error interno de servicio"
+                detalle: "Error interno de servicio"
+  /empleados:
+    post:
+      summary: "Permite ingresar un nuevo empleado al sistema"
+      operationId: postEmpleado
+      requestBody:
+        description: "Request para guardar la informacion de un empleado"
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/PostEmpleadoRequest"
+            example:
+              nombre: "Juan"
+              apellido: "Perez"
+              datos_personales:
+                documento:
+                  tipo: "dni"
+                  numero: "37999000"
+                direccion:
+                  calle: "Av. siempre viva"
+                  calle_numero: "433"
+                  cuidad: "CABA"
+                  provincia: "CABA"
+                  codigo_postal: "3490"
+                telefono: "2220-9384732"
+              datos_laborales:
+                sector: "Marketing"
+                puesto: "Community Manager"
+                salario: "100.00"
+                antiguedad: "5 años"
+      responses:
+        '200':
+          description: Succesful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostEmpleadoResponse'
+              example:
+                sector: "Marketing"
+                puesto: "Community Manager"
+                salario: "100.00"
+                antiguedad: "5 años"
         '500':
           description: Internal server error
           content:
@@ -47,6 +97,24 @@ paths:
 
 components:
   schemas:
+    PostEmpleadoRequest:
+      type: object
+      description: "Request del post para agregar un nuevo empleado"
+      properties:
+        nombre:
+          type: string
+        apellido:
+          type: string
+        datos_personales:
+          $ref: "#/components/schemas/DatosPersonalesRequest"
+        datos_laborales:
+          $ref: "#/components/schemas/DatosLaboralesDTO"
+      required:
+        - nombre
+        - apellido
+        - datos_personales
+        - datos_laborales
+
     DatosLaboralesDTO:
       type: object
       description: "Respuesta con los datos laborales del empleado"
@@ -58,6 +126,63 @@ components:
         salario:
           type: string
         antiguedad:
+          type: string
+      required:
+        - sector
+        - puesto
+        - salario
+        - antiguedad
+
+    DatosPersonalesRequest:
+      type: object
+      description: "Request con la info de datos personales"
+      properties:
+        documento:
+          $ref: "#/components/schemas/DocumentoRequest"
+        direccion:
+          $ref: "#/components/schemas/DireccionRequest"
+        telefono:
+          type: string
+          maxLength: 20
+      required:
+        - documento
+
+    DocumentoRequest:
+      type: object
+      description: "Request con la info del documento"
+      properties:
+        tipo:
+          type: string
+        numero:
+          type: string
+      required:
+        - tipo
+        - numero
+
+    DireccionRequest:
+      type: object
+      description: "Request con la info de direccion"
+      properties:
+        calle:
+          type: string
+        calle_numero:
+          type: string
+        cuidad:
+          type: string
+        provincia:
+          type: string
+        codigo_postal:
+          type: string
+
+    PostEmpleadoResponse:
+      type: object
+      description: "Respuesta con datos del empleado creado"
+      properties:
+        legajo:
+          type: string
+        nombre:
+          type: string
+        apellido:
           type: string
 
     ErrorResponse:
