@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 @Slf4j
-public class HandlerController {
+public class HandlerExceptionController {
 
     @ResponseBody
     @ExceptionHandler(EmpleadoNotFoundException.class)
