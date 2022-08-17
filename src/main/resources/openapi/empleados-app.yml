@@ -3,46 +3,6 @@ info:
   title: Empleados API
   version: "1.0"
 paths:
-  /empleados/datos-laborales/{legajo}:
-    get:
-      summary: "Obtiene informacion de los datos laborales de un empleado a traves de su legajo"
-      operationId: getDatosLaboralesByLegajo
-      parameters:
-        - in: path
-          name: legajo
-          schema:
-            type: integer
-          required: true
-      responses:
-        '200':
-          description: Succesful request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DatosLaboralesDTO"
-              example:
-                sector: "Marketing"
-                puesto: "Community Manager"
-                salario: "100.00"
-                antiguedad: "5 años"
-        '404':
-          description: Not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              example:
-                mensaje: "No encontrado"
-                detalle: "No se encontraron empleados con el valor ingresado"
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                mensaje: "Error interno de servicio"
-                detalle: "Error interno de servicio"
   /empleados:
     post:
       summary: "Permite ingresar un nuevo empleado al sistema"
@@ -94,6 +54,84 @@ paths:
                 mensaje: "Error interno de servicio"
                 detalle: "Error interno de servicio"
 
+  /empleados/{legajo}:
+    delete:
+      summary: "Obtiene informacion de los datos laborales de un empleado a traves de su legajo"
+      operationId: deleteEmpleado
+      parameters:
+        - in: path
+          name: legajo
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Succesful request
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                "Se ha borrado de manera exitosa el empleado con legajo: 1"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                mensaje: "No encontrado"
+                detalle: "No se encontraron empleados con el valor ingresado"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                mensaje: "Error interno de servicio"
+                detalle: "Error interno de servicio"
+
+  /empleados/datos-laborales/{legajo}:
+    get:
+      summary: "Obtiene informacion de los datos laborales de un empleado a traves de su legajo"
+      operationId: getDatosLaboralesByLegajo
+      parameters:
+        - in: path
+          name: legajo
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Succesful request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatosLaboralesDTO"
+              example:
+                sector: "Marketing"
+                puesto: "Community Manager"
+                salario: "100.00"
+                antiguedad: "5 años"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                mensaje: "No encontrado"
+                detalle: "No se encontraron empleados con el valor ingresado"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                mensaje: "Error interno de servicio"
+                detalle: "Error interno de servicio"
 
 components:
   schemas:

@@ -10,4 +10,9 @@ public class EmpleadoNotFoundException extends RuntimeException {
     public String getMessage() {
         return "No se encontraron empleados con el valor ingresado";
     }
+
+    @Override
+    public String getLocalizedMessage() {
+        return "Empleado no encontrado";
+    }
 }

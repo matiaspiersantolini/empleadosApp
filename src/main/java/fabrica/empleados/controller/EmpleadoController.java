@@ -21,6 +21,15 @@ public class EmpleadoController implements EmpleadosApi {
 
     @Override
     @InicioFinLog
+    public ResponseEntity<PostEmpleadoResponse> postEmpleado(PostEmpleadoRequest postEmpleadoRequest) {
+        log.info("1. Post -> Ingresando empleado nuevo");
+        PostEmpleadoResponse postEmpleadoResponse = empleadoService.saveNewEmpleado(postEmpleadoRequest);
+        log.info("3. Numero de legajo del nuevo empleado: {}", postEmpleadoResponse.getLegajo());
+        return new ResponseEntity<>(postEmpleadoResponse, HttpStatus.OK);
+    }
+
+    @Override
+    @InicioFinLog
     public ResponseEntity<DatosLaboralesDTO> getDatosLaboralesByLegajo(Integer legajo) {
         log.info("1. Get -> datos laborales - legajo: {}", legajo);
         DatosLaboralesDTO datosLaborales = empleadoService.findDatosLaboralesByLegajo(legajo);
@@ -29,9 +38,9 @@ public class EmpleadoController implements EmpleadosApi {
 
     @Override
     @InicioFinLog
-    public ResponseEntity<PostEmpleadoResponse> postEmpleado(PostEmpleadoRequest postEmpleadoRequest) {
-        log.info("1. Post -> Ingresando empleado nuevo");
-        PostEmpleadoResponse postEmpleadoResponse = empleadoService.saveNewEmpleado(postEmpleadoRequest);
-        return new ResponseEntity<>(postEmpleadoResponse, HttpStatus.OK);
+    public ResponseEntity<String> deleteEmpleado(Integer legajo) {
+        log.info("1. Delete -> legajo: {}", legajo);
+        String respuesta = empleadoService.deleteEmpleado(legajo);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 }
